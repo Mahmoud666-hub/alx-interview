@@ -1,86 +1,40 @@
 #!/usr/bin/python3
 """
-Module 0-prime_game
+    Prime Game
 """
 
 
-def isPrime(num):
-    """
-    checks if a num
-    is a prime number
-    """
-    if num < 2:
-        return False
-    for i in range(2, num):
-        if (num % i) == 0:
-            return False
-    return True
-
-
-def getPrime(ints):
-    """
-    Returns a prime number
-    from a set
-    """
-    for n in ints:
-        if isPrime(n):
-            return n
-    return None
-
-
-def removePrimeNo(ints, prime):
-    """
-    removes a prime number from a set
-    """
-    ints.remove(prime)
-
-
-def removeMultiples(ints, number, player):
-    """removes multiples of a number"""
-    for x in ints.copy():
-        if (x % number) == 0:
-            # print(f"{player} removes {x}")
-            ints.remove(x)
-
-
 def isWinner(x, nums):
-    """
-    Determines the winner
-    """
-    m_wins = 0
-    b_wins = 0
-    canPlay = True
-    times = 0
-
-    if not x or not nums:
+    """Determine the winner of the Prime Game"""
+    if x <= 0 or not nums:
         return None
+    if x != len(nums):
+        return None
+
+    ben = 0
+    maria = 0
+
+    max_num = max(nums)
+    is_prime = [True] * (max_num + 1)
+    is_prime[0], is_prime[1] = False, False
+
+    for i in range(2, int(max_num**0.5) + 1):
+        if is_prime[i]:
+            for j in range(i * i, max_num + 1, i):
+                is_prime[j] = False
+
+    prime_count = [0] * (max_num + 1)
+    for i in range(1, max_num + 1):
+        prime_count[i] = prime_count[i - 1] + (1 if is_prime[i] else 0)
 
     for n in nums:
-        ints = set([n for n in range(1, n + 1)])
-        player = "m"
-        while times <= x:
-            prime = getPrime(ints)
-            # A win for the other player
-            # when no more prime numbers exist
-            # print(f"{player} picks {prime}")
-            if prime is None:
-                if player == "m":
-                    b_wins += 1
-                else:
-                    m_wins += 1
-                break
-            # remove prime number
-            # print(f"{player} removes {prime}")
-            removePrimeNo(ints, prime)
-            removeMultiples(ints, prime, player)
+        if prime_count[n] % 2 == 0:
+            ben += 1
+        else:
+            maria += 1
 
-            if player == "b":
-                player = "m"
-            else:
-                player = "b"
-            times += 1
-        times = 0
-
-    if m_wins == b_wins:
-        return None
-    return "Maria" if m_wins > b_wins else "Ben"
+    if ben > maria:
+        return "Ben"
+    if maria > ben:
+        return "Maria"
+    return None
