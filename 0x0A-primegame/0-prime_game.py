@@ -39,6 +39,7 @@ def removeMultiples(ints, number, player):
     """removes multiples of a number"""
     for x in ints.copy():
         if (x % number) == 0:
+            # print(f"{player} removes {x}")
             ints.remove(x)
 
 
@@ -59,12 +60,17 @@ def isWinner(x, nums):
         player = "m"
         while times <= x:
             prime = getPrime(ints)
+            # A win for the other player
+            # when no more prime numbers exist
+            # print(f"{player} picks {prime}")
             if prime is None:
                 if player == "m":
                     b_wins += 1
                 else:
                     m_wins += 1
                 break
+            # remove prime number
+            # print(f"{player} removes {prime}")
             removePrimeNo(ints, prime)
             removeMultiples(ints, prime, player)
 
