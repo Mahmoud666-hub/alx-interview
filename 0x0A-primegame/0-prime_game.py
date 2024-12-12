@@ -4,15 +4,15 @@ Module 0-prime_game
 """
 
 
-def isPrime(numb):
+def isPrime(num):
     """
-    checks if a numb
+    checks if a num
     is a prime number
     """
-    if numb < 2:
+    if num < 2:
         return False
-    for i in range(2, numb):
-        if (numb % i) == 0:
+    for i in range(2, num):
+        if (num % i) == 0:
             return False
     return True
 
@@ -22,9 +22,9 @@ def getPrime(ints):
     Returns a prime number
     from a set
     """
-    for a in ints:
-        if isPrime(a):
-            return a
+    for n in ints:
+        if isPrime(n):
+            return n
     return None
 
 
@@ -39,7 +39,6 @@ def removeMultiples(ints, number, player):
     """removes multiples of a number"""
     for x in ints.copy():
         if (x % number) == 0:
-            # print(f"{player} removes {x}")
             ints.remove(x)
 
 
@@ -60,17 +59,12 @@ def isWinner(x, nums):
         player = "m"
         while times <= x:
             prime = getPrime(ints)
-            # A win for the other player
-            # when no more prime numbers exist
-            # print(f"{player} picks {prime}")
             if prime is None:
                 if player == "m":
                     b_wins += 1
                 else:
                     m_wins += 1
                 break
-            # remove prime number
-            # print(f"{player} removes {prime}")
             removePrimeNo(ints, prime)
             removeMultiples(ints, prime, player)
 
