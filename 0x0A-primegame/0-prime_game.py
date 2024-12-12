@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Module prime_gamexx
+Module 0-prime_game
 """
 
 
@@ -17,32 +17,33 @@ def isPrime(numb):
     return True
 
 
-def getPrime(intgers):
+def getPrime(ints):
     """
     Returns a prime number
-    from a set of intgers
+    from a set
     """
-    for x in intgers:
-        if isPrime(x):
-            return x
+    for a in ints:
+        if isPrime(a):
+            return a
     return None
 
 
-def removePrimeNo(intgs, prim):
+def removePrimeNo(ints, prime):
     """
     removes a prime number from a set
     """
-    intgs.remove(prim)
+    ints.remove(prime)
 
 
-def removeMultiples(ints, number):
+def removeMultiples(ints, number, player):
     """removes multiples of a number"""
     for x in ints.copy():
         if (x % number) == 0:
+            # print(f"{player} removes {x}")
             ints.remove(x)
 
 
-def isWinner(m, nums):
+def isWinner(x, nums):
     """
     Determines the winner
     """
@@ -51,21 +52,25 @@ def isWinner(m, nums):
     canPlay = True
     times = 0
 
-    if not m or not nums:
+    if not x or not nums:
         return None
 
     for n in nums:
         ints = set([n for n in range(1, n + 1)])
         player = "m"
-        while times <= m:
+        while times <= x:
             prime = getPrime(ints)
-
+            # A win for the other player
+            # when no more prime numbers exist
+            # print(f"{player} picks {prime}")
             if prime is None:
                 if player == "m":
                     b_wins += 1
                 else:
                     m_wins += 1
                 break
+            # remove prime number
+            # print(f"{player} removes {prime}")
             removePrimeNo(ints, prime)
             removeMultiples(ints, prime, player)
 
